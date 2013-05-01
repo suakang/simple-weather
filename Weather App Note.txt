@@ -1,0 +1,143 @@
+Weather App Note
+4/3/2013
+
+Comment out the last line for main.js
+Add new script tag <script src="js/bb.js"></script>
+Create new bb.js file
+
+Go to http://cdnjs.com/(hosted library)
+Copy link for underscore and backbone js and add http://. before link
+
+Need to include underscore first because backbone rely on underscore. 
+
+Process: 
+Get Data from API - Parse to JSON - and Store
+
+1) Self-initated javascript function
+
+(function($){})(jQuery);
+
+You need to sandbox it so it doesn't pollute javascript variable. And you can run jQuery in no-conflict mode. 
+
+2) Always declare variable first! 
+3) Backbone - Forecast is getting all the function and models and extended with custom function. 
+
+Always Capitalize variable that represent Object.
+
+4) Define 3 Views: Interaction of Search Button, Forecast View and Individual Forecast Items.
+
+Then Define all of them: 
+
+	SearchView = Backbone.View.extend({});
+	ForecastView = Backbone.View.extend({});
+	ForecastItemView = Backbone.View.extend({});
+
+5) When jQuery runs, create new incidents(versions) for 3 of them:
+
+forecasts = new Forecast();
+searchView = new SearchView();
+ForecastView = new ForecastView();
+
+It calls it into actions.
+
+6) Define functionalities in MCV.
+In a Forecast Model, define URL key - a function. 
+
+Copy http://api.wunderground.com/api/7eaec3b21b154448/conditions/q/" + $zip.val() + ".json from main.js 
+and update the double quotes to single cuotes.
+
+$zip.val() -> this.get('zip'): getting information out.
+
+Define function parse
+data: json object
+current_objservation: key within the object
+
+Return object - that represent the data object for forecast
+
+Grab information out of observation variable. 
+
+(id= zipcode) observation.display_location.zip, etc.
+
+7) Write method to get the URL. 
+Have to be after parse method.
+
+sync: function(method, model, options)
+
+pass 3 parameters (method, model, options)
+
+Sync is going to run ajax using uRL, if successful then gonna run parse and validate if the zipcode is exist.
+
+8) Validate
+
+see if options.zip exist
+! is shortcut for true/false meaning if the value exists or not.  
+
+
+9) SearchView, set up an event for listen for click. When click even is fired, then it will run a function.
+
+There is custom events: object that is made out of key value pair 
+
+Value is the function that we want to run.
+
+Set up a method called initialize that runs when the view is started 
+
+10) Tie searchView and Forecasts together. 
+
+Add addZip is a method that works when we clear a button 'search'
+
+addZip: function(e) - runs an event
+
+Then set Zip value , and add it to our collection
+
+When we click on search button, it goes zip that creates Forecast value, if there is an error, then it tries to set our zip code and if it's successful it adds to our collection.
+
+11) Go to ForecastView and list events for 'click listeninig'
+
+When we click 'delete' button, then destroy the data. 
+
+When ForecastView is initialize we will run a function
+
+2 listeners: whenever we add and remove
+
+Then we will render those two listenrers.
+
+12) Pass along the data view - 2 keys: id and model
+
+13) Add 'remove' method: and also take model as a parameter
+
+14) Add 'destroy' method: 
+
+15) In the render method, we get 'tbody' and append element that is related to the view
+
+16) _.template is a code from underscore
+
+.trim function will remove all the white space in the html
+
+method bindALL - bind all the datat with templates
+
+17) Update searchView and forestView and tie the collection to those views by passing an object 
+
+el = element equal to jquery selector of weather
+
+#output: table data
+
+18) Go to index file and make the collection data to draw our code
+
+<script type="text/template" id="forecast-template">
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+</script>
+<%= url %> = syntax for underscore. url and replace with observation.icon_url
+
+
+
+------------------------------
+var obj = {
+	key: 'value'
+	method: function ()
+}
